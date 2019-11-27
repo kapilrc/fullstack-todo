@@ -1,13 +1,16 @@
 let express = require('express')
 let mongodb = require('mongodb')
 let sanitizeHTML = require('sanitize-html')
+let dotenv = require('dotenv')
+
+dotenv.config();
+
 let app = express()
 let db
 
 app.use(express.static('public'))
 
-let connectionString = 'mongodb+srv://TodoAppUser:Passw0rd@cluster0-p4s24.mongodb.net/test?retryWrites=true&w=majority';
-mongodb.connect(connectionString, {
+mongodb.connect(process.env.CONNECTIONSTRING, {
   useNewUrlParser: true, 
   autoReconnect: true,
   socketTimeoutMS:500000,
@@ -59,7 +62,7 @@ app.get('/', (req, res) => {
       <h1 class="display-4 text-center py-1">To-Do App</h1>
       
       <div class="jumbotron p-3 shadow-sm">
-        <form id="todo-form" action="/create-item" method="POST"
+        <form id="todo-form" action="/create-item" method="POST">
           <div class="d-flex align-items-center">
             <input id="input-text" name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
             <button class="btn btn-primary">Add New Item</button>
